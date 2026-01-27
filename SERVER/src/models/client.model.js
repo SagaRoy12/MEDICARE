@@ -7,7 +7,7 @@ const clientDetailsModelSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    shopAddress: {          
+    shopAddress: {
         type: String,
         required: true,
     },
@@ -33,8 +33,12 @@ const clientDetailsModelSchema = new mongoose.Schema({
         type: String,
         unique: true
 
+    },
+    role: {
+        type: String,
+        default: 'client',
+        enum: ['client']
     }
-
 
 }, { timestamps: true })
 

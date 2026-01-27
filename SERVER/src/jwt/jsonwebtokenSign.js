@@ -7,3 +7,4 @@ const jwtOptions = {
 export const signedJsonWebToken = async (payload) => {
     return jsonwebtoken.sign(payload, process.env.JWT_SECRET, jwtOptions)
 }
+
