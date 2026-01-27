@@ -16,12 +16,16 @@ const clientDetailsModelSchema = new mongoose.Schema({
         required: true,
         uppercase: true,
     },
-    ownerPhoneNumeber: {
-        type: Number,
+    ownerPhoneNumber: {
+        type: String,        // ✅ Store as string
         required: true,
-        min: [10, `this is not a valid number`],
-        max: [10, `this is not a valid number`],
-        unique: true
+        unique: true,
+        validate: {
+            validator: function (v) {
+                return /^(\+91)?[-\s]?[6-9]\d{9}$/.test(v.replace(/[-\s]/g, ''));
+            },
+            message: props => `${props.value} is not a valid phone number!`
+        }
     },
     ownerEmailID: {
         type: String,

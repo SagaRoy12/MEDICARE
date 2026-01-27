@@ -1,11 +1,12 @@
 import ClientModel from "../models/client.model.js"
+import bcrypt from "bcrypt"
 
-export const registerClientandSave_DAO = async (shopName, shopAddress, ownerPhoneNumeber, ownerName, ownerEmailID, ownerGSTnumber) => {
+export const registerClientandSave_DAO = async (shopName, shopAddress, ownerPhoneNumber, ownerName, ownerEmailID, ownerGSTnumber) => {
     const newClient = await new ClientModel(
         {
             shopName,
             shopAddress,
-            ownerPhoneNumeber,
+            ownerPhoneNumber,
             ownerName,
             ownerEmailID,
             ownerGSTnumber,
@@ -22,4 +23,10 @@ export const getClientByShopName_DAO = async (shopName) => {
 // Find client by email
 export const findClientByEmail_DAO = async (email) => {
     return await ClientModel.findOne({ email });
+};
+
+
+// Compare client password
+export const compareClientPassword_DAO = async (password, client) => {
+    return await bcrypt.compare(password, client.password);
 };

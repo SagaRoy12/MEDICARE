@@ -1,10 +1,10 @@
 import tryCatchWrapper from "../utility/tryCatchWrapper.util.js";
-import { findAdminByEmail_DAO } from "../DAO/admin.dao.js";
-import bcrypt from "bcrypt";
-import { signedJsonWebToken } from "../utility/jwt.util.js";
+import { findAdminByEmail_DAO, compareAdminPassword_DAO } from "../DAO/admin.dao.js";
+import { findClientByEmail_DAO, compareClientPassword_DAO } from "../DAO/client.dao.js";
+import { signedJsonWebToken } from "../jwt/jsonwebtokenSign.js";
 
 // Admin login service
-export const adminLoginService = tryCatchWrapper(async (email, password) => {
+export const adminLogin_Service = tryCatchWrapper(async (email, password) => {
     // Find admin in database
     const admin = await findAdminByEmail_DAO(email);
     if (!admin) {
@@ -12,7 +12,7 @@ export const adminLoginService = tryCatchWrapper(async (email, password) => {
     }
 
     // Verifying password
-    const isPasswordValid = await bcrypt.compare(password, admin.password);
+    const isPasswordValid = await compareAdminPassword_DAO(password, admin);
     if (!isPasswordValid) {
         throw { status: 401, message: 'Invalid credentials' };
     }
@@ -38,14 +38,14 @@ export const adminLoginService = tryCatchWrapper(async (email, password) => {
 
 
 // Client login service
-export const clientLoginService = tryCatchWrapper(async (email, password) => {
+export const clientLogin_Service = tryCatchWrapper(async (email, password) => {
     // Find client in database
     const client = await findClientByEmail_DAO(email);
     if (!client) {
         throw { status: 401, message: 'Invalid credentials' };
     }
     // Verify password
-    const isPasswordValid = await bcrypt.compare(password, client.password);
+    const isPasswordValid = await compareClientPassword_DAO(password, client);
     if (!isPasswordValid) {
         throw { status: 401, message: 'Invalid credentials' };
     }
@@ -57,7 +57,7 @@ export const clientLoginService = tryCatchWrapper(async (email, password) => {
         role: 'client'
     });
 
-    // Return token and user data
+    // Return token and user data 
     return {
         token,
         user: {
@@ -69,3 +69,39 @@ export const clientLoginService = tryCatchWrapper(async (email, password) => {
         }
     };
 })
+
+
+/*
+// Patient Login Service
+export const patientLogin_Service = async (phone, password) => {
+  // Find patient in database
+  const patient = await authDao.findPatientByPhone(phone);
+  if (!patient) {
+    throw { status: 401, message: 'Invalid credentials' };
+  }
+
+  // Verify password
+  const isPasswordValid = await bcrypt.compare(password, patient.password);
+  if (!isPasswordValid) {
+    throw { status: 401, message: 'Invalid credentials' };
+  }
+
+  // Create token with role
+  const token = await signedJsonWebToken({ 
+    id: patient._id, 
+    phone: patient.phone,
+    role: 'patient' 
+  });
+
+  // Return token and user data
+  return {
+    token,
+    user: { 
+      id: patient._id, 
+      name: patient.name,
+      phone: patient.phone,
+      email: patient.email,
+      role: 'patient' 
+    }
+  };
+};*/

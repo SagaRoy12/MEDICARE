@@ -18,13 +18,6 @@ dotenv.config();
 const app = express()
 
 
-// app.use(`/api/client_route`, clientRoute)
-app.use(`/api/admin_route`, adminRoute)
-// app.use(`/api/patient_route`, patientRoute)
-// app.use(`/api/testAppointment_route`, testAppointmentRoute)
-// app.use(`/api/bill_route`, billRoute)
-// app.use(`/api/paymentStatus_route`, paymentStatusRoute)
-// app.use(`/api/pathologyServices_route`, pathologyServicesRoute)
 
 
 const port = process.env.PORT || 3000
@@ -34,6 +27,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 //app.use(cookieParser()) 
 
+app.use(`/api/admin_route`, adminRoute)
+// app.use(`/api/client_route`, clientRoute)
+// app.use(`/api/patient_route`, patientRoute)
+// app.use(`/api/testAppointment_route`, testAppointmentRoute)
+// app.use(`/api/bill_route`, billRoute)
+// app.use(`/api/paymentStatus_route`, paymentStatusRoute)
+// app.use(`/api/pathologyServices_route`, pathologyServicesRoute)
 
 
 
