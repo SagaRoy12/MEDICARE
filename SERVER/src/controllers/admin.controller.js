@@ -4,7 +4,7 @@ import { registerClient_Service, getAllClients_Service } from "../services/clien
 
 export const registerUser_Controller = tryCatchWrapper(async (req, res) => {
     const { shopName, shopAddress, ownerPhoneNumeber, ownerName, ownerEmailID, ownerGSTnumber } = req.body
-    const newClient = await registerClient_Service(shopName, shopAddress, ownerPhoneNumeber, ownerName, ownerEmailID, ownerGSTnumber)
+    const newClient = registerClient_Service(shopName, shopAddress, ownerPhoneNumeber, ownerName, ownerEmailID, ownerGSTnumber)
     return res.status(201).json({ message: "Client registered successfully", newClient })
 })
 

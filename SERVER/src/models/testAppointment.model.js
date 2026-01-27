@@ -29,6 +29,6 @@ const testAppointmentSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-const TestAppointment = mongoose.model("testAppointment", testAppointmentSchema)
+const TestAppointment = mongoose.model("TestAppointment", testAppointmentSchema)
 
 export default TestAppointment

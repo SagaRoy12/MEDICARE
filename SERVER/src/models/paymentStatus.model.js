@@ -13,6 +13,6 @@ const paymentStatusSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-const PaymentStatus = mongoose.model("paymentStatus", paymentStatusSchema)
+const PaymentStatus = mongoose.model("PaymentStatus", paymentStatusSchema)
 
 export default PaymentStatus
