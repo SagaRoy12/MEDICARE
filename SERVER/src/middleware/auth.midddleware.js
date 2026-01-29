@@ -1,3 +1,4 @@
+
 import { verifyToken } from "../jwt/jsonwebtokenValidate.js";
 
 export const authMiddleware = (req, res, next) => {
@@ -12,8 +13,8 @@ export const authMiddleware = (req, res, next) => {
     try {
         const decodedToken = verifyToken(token)
 
-        req.user = {     // attaching user data to the request object
-            user_id: decodedToken.id,
+        req.user = {
+            user_id: decodedToken.id,  // ✅ Correct
             user_role: decodedToken.role
         }
         next()
@@ -25,3 +26,5 @@ export const authMiddleware = (req, res, next) => {
     }
 
 }
+
+

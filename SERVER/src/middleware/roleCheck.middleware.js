@@ -1,6 +1,6 @@
 // Check if user is Admin
 export const isAdmin = (req, res, next) => {
-  if (req.user.role !== 'admin') {
+  if (req.user.user_role  !== 'admin') {
     return res.status(403).json({ 
       message: 'Access denied. Admin privileges required.' 
     });
@@ -10,7 +10,7 @@ export const isAdmin = (req, res, next) => {
 
 // Check if user is Client (Pathology shop owner)
 export const isClient = (req, res, next) => {
-  if (req.user.role !== 'client') {
+  if (req.user.user_role  !== 'client') {
     return res.status(403).json({ 
       message: 'Access denied. Client privileges required.' 
     });
@@ -20,7 +20,7 @@ export const isClient = (req, res, next) => {
 
 // Check if user is Patient
 export const isPatient = (req, res, next) => {
-  if (req.user.role !== 'patient') {
+  if (req.user.user_role  !== 'patient') {
     return res.status(403).json({ 
       message: 'Access denied. Patient privileges required.' 
     });

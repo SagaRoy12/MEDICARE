@@ -42,7 +42,7 @@ const clientDetailsModelSchema = new mongoose.Schema({
         type: String,
         default: 'client',
         enum: ['client']
-    }
+    }                           // need to add subscription
 
 }, { timestamps: true })
 

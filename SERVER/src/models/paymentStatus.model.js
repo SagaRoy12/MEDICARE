@@ -5,6 +5,7 @@ const paymentStatusSchema = new mongoose.Schema({
     paymentStatus: {
         type: String,
         required: true
+        
     },
     paymentDate: {
         type: Date,

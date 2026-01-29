@@ -16,7 +16,8 @@ const testAppointmentSchema = new mongoose.Schema({
     testStatus: {
         type: String,
         required: true,
-        enum: [`pending`, `completed`]
+        enum: [`pending`, `completed`],
+        default: `pending`
     },
     paymentID: {
         type: mongoose.Schema.Types.ObjectId,
