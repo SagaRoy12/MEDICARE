@@ -1,6 +1,10 @@
 import mongoose from `mongoose`
 
 const billSchema = new mongoose.Schema({
+    clientId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ClientModel"
+    },
     patientID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Patient"

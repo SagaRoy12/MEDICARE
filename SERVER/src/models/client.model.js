@@ -17,7 +17,7 @@ const clientDetailsModelSchema = new mongoose.Schema({
         uppercase: true,
     },
     ownerPhoneNumber: {
-        type: String,        // ✅ Store as string
+        type: String,        //  Store as string
         required: true,
         unique: true,
         validate: {
@@ -42,7 +42,7 @@ const clientDetailsModelSchema = new mongoose.Schema({
         type: String,
         default: 'client',
         enum: ['client']
-    }
+    }                           // need to add subscription
 
 }, { timestamps: true })
 
