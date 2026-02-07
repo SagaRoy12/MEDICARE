@@ -10,24 +10,34 @@ import {
 import { bookNewTestAppointment_Service } from "../services/client.service.js"
 
 // See payment status - Get all bills for the logged-in client
-export const seePaymentStatus_controller = tryCatchWrapper(async (req, res) => {
-    const clientId = req.user.user_id;  // From JWT token
-    const { status } = req.query;  // Optional filter: ?status=pending
+export const seePaymentStatus_controller = async (req, res) => {
+    try {
+        const clientId = req.user.user_id;  // From JWT token
+        const { status } = req.query;  // Optional filter: ?status=pending
+        console.log("payment Status in controller: ", status);
+        // Get bills by the payemnt status
+        const bills = await getBillByPaymentStatus_Service(clientId, status);
+        const allBills = await getAllBillsByClientId_Service(clientId)
+        // Get summary
+        const summary = await getPaymentSummary_Service(clientId);
 
-    // Get bills by the payemnt status
-    const bills = await getBillByPaymentStatus_Service(clientId, status);
-    const allBills = await getAllBillsByClientId_Service(clientId)
-    // Get summary
-    const summary = await getPaymentSummary_Service(clientId);
-
-    return res.status(200).json({
-        message: "Payment status retrieved successfully ✌️",
-        summary,
-        allBills, // ⚠️use the all bills in saperate case too where user in one click can get all of his bills 
-        bills,
-        totalBills: bills.length
-    });
-});
+        return res.status(200).json({
+            message: "Payment status retrieved successfully ✌️",
+            summary,
+            allBills, // ⚠️use the all bills in saperate case too where user in one click can get all of his bills 
+            bills,
+            totalBills: bills.length
+        });
+    }
+    catch (error) {
+        console.error(`CONTROLLER ERROR | seePaymentStatus_controller  ${error}`);
+        return res.status(500).json({
+            message: message,
+            controller: "seePaymentStatus_controller",
+            error: error.toString()
+        });
+    };
+}
 
 
 
@@ -42,8 +52,14 @@ export const bookAppointment_controller = async (req, res) => {
             message: "New Appointment is booked successfully ✌️"
             , "Appointment Details": newAppointmentBooking
         })
-    } catch (ezrror) {
-        throw new Error(`CONTROLLER ERROR | bookAppointment_controller  ${error}`)
+    } catch (error) {
+        // throw new Error(`CONTROLLER ERROR | bookAppointment_controller  ${error}`)
+        console.error(`CONTROLLER ERROR | bookAppointment_controller  ${error}`);
+        return res.status(500).json({
+            message: message,
+            controller: "bookAppointment_controller",
+            error: error.toString()
+        });
     }
 
 };
@@ -55,7 +71,7 @@ export const generateAndSaveBill_controller = async (req, res) => {
     try {
         const clientId = req.user.user_id; // extracting clinetId from JWT  
         const billData = req.body; // bill data to be saved
-              clientId = req.user.user_id; // injecting clientId in the bill object 
+        billData.clientId = clientId; //  Inject clientId into billData
         const generatedBill = await generateAndSaveBill_service(billData);
 
         return res.status(201).json({
@@ -63,7 +79,12 @@ export const generateAndSaveBill_controller = async (req, res) => {
             bill: generatedBill
         });
     } catch (error) {
-        throw new Error(`CONTROLLER ERROR | generateAndSaveBill_controller  ${error}`)
+        console.error(`CONTROLLER ERROR | generateAndSaveBill_controller  ${error}`)
+        return res.status(500).json({
+            message: message,
+            controller: "generateAndSaveBill_controller",
+            error: error.toString()
+        });
     }
 };
 
@@ -81,8 +102,12 @@ export const generatePdfOfBill_controller = async (req, res) => {
         res.send(pdfBuffer);
 
     } catch (error) {
-        console.error(error);
-        throw new Error(`CONTROLLER ERROR | generatePdfOfBill_controller  ${error}`);
+        console.error(`CONTROLLER ERROR | generatePdfOfBill_controller  ${error}`);
+        return res.status(500).json({
+            message: message,
+            controller: "generatePdfOfBill_controller",
+            error: error.toString()
+        });
     }
 };
 

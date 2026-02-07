@@ -13,7 +13,12 @@ export const getBillByPaymentStatus_Service = async (clientId, status) => {
         return await getBillbyClinetIdandPaymentStatus_DAO(clientId, status)
 
     } catch (error) {
-        throw new Error(`SERVICE ERROR | from getBillbyClinetIdandPaymentStatus_DAO ${clientId} | ${status} |error message => ${error.message}`)
+        console.error(`SERVICE ERROR | from getBillbyClinetIdandPaymentStatus_DAO ${clientId} | ${status} |error message => ${error.message}`)
+        return res.status(500).json({
+            message: message,
+            service: "getBillByPaymentStatus_Service",
+            error: error.toString()
+        });
     }
 }
 
@@ -22,7 +27,12 @@ export const getAllBillsByClientId_Service = async (clientId) => {
     try {
         return await getBillsByClientId_DAO(clientId)
     } catch (error) {
-        throw new Error(`SERVICE ERROR | getAllBillsByClientId_Service ${clientId} | Error Message => ${error} `)
+        console.error(`SERVICE ERROR | getAllBillsByClientId_Service ${clientId} | Error Message => ${error} `)
+        return res.status(500).json({
+            message: message,
+            service: "getAllBillsByClientId_Service",
+            error: error.toString()
+        });
     }
 }
 
@@ -48,7 +58,12 @@ export const getPaymentSummary_Service = async (clientId) => {
         return formattedSummary;
 
     } catch (error) {
-        throw new Error(`SERVICE ERROR | getPaymentSummary_Service ${clientId} | Error Message => ${error} `)
+        console.log(`SERVICE ERROR | getPaymentSummary_Service ${clientId} | Error Message => ${error} `)
+        return res.status(500).json({
+            message: message,
+            service: "getPaymentSummary_Service",
+            error: error.toString()
+        });
     }
 
 
@@ -68,6 +83,11 @@ export const generateAndSaveBill_service = async (billData) => {
         }
 
     } catch (error) {
-        throw new Error(`SERVICE ERROR | generateAndSaveBill_service  | Error Message => ${error.message} `)
+        console.error(`SERVICE ERROR | generateAndSaveBill_service  | Error Message => ${error.message} `)
+        return res.status(500).json({
+            message: message,
+            service: "generateAndSaveBill_service",
+            error: error.toString()
+        });
     }
 }

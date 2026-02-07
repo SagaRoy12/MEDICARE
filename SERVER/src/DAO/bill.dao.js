@@ -1,3 +1,4 @@
+
 import Bill from "../models/bill.model.js";
 
 // DAO to get bills by client ID
@@ -5,7 +6,7 @@ import Bill from "../models/bill.model.js";
 export const getBillsByClientId_DAO = async(clientId)=>{
 try{
     return await Bill.find({ clientId: clientId })
-    .populate("patientID" , "firstName lastName patientPhoneNumber")  // ⚠️⚠️patient can have middle name consider it after sample testing 
+    .populate("patientId", "firstName lastName patientPhoneNumber")  // ✅ Correct - lowercase 'd'
     .sort({ createdAt: -1 });  // latest bill first
 }catch(error){
     throw new Error(`DAO ERROR: getBillsByClientId_DAO failed | clientId=${clientId} | ${error.message}`);
@@ -16,8 +17,8 @@ try{
 //getting bills by status and clientId
 export const getBillbyClinetIdandPaymentStatus_DAO = async (clientId, status) => {
   try {
-    return await Bill.find({ clientId: clientId, paymentStatus: status })
-      .populate("patientID", "firstName lastName patientPhoneNumber")
+    return await Bill.find({ clientId: clientId, billStatus: status })  // ✅ Correct
+      .populate("patientId", "firstName lastName patientPhoneNumber")
       .sort({ createdAt: -1 });
   } catch (error) {
     throw new Error(
@@ -35,7 +36,7 @@ export const getPaymentSummary_DAO = async (clientId) => {
             {
                 $group: {
                     _id: "$billStatus",
-                    totalAmount: {$sum: "$amount"},
+                    totalAmount: {$sum: "$billAmount"},
                     count: {$sum: 1}
                 }
             }
