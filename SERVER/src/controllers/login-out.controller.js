@@ -23,6 +23,22 @@ export const adminLogin_controller = async (req, res) => {
   }
 };
 
+// admin logout controller
+export const adminLogout_controller = (req, res) => {
+  try {
+    res.clearCookie("ACCESSadmin_TOKEN", cookieOptions);
+    res.json({ message: "Admin logged out successfully" });
+  } catch (error) {
+    console.error(`CONTROLLER ERROR | login-logout |adminLogout_controller ${error}`)
+    res.status(500).json({
+      message: "Logout failed",
+      controller: "adminLogout_controller",
+      error: error.toString()
+    })
+  }
+}
+
+// client login controller
 export const clientLogin_controller = async (req, res) => {
   const { ownerEmailID, password } = req.body;
 
@@ -44,4 +60,19 @@ export const clientLogin_controller = async (req, res) => {
       error: error.toString()
     })
   }
-};  
+}; 
+
+//client logout controller
+export const clientLogout_controller = (req, res) => {
+  try {
+    res.clearCookie("ACCESSclient_TOKEN", cookieOptions);
+    res.json({ message: "Client logged out successfully" });
+  } catch (error) {
+    console.error(`CONTROLLER ERROR | login-logout |clientLogout_controller ${error}`)
+    res.status(500).json({
+      message: "Logout failed",
+      controller: "clientLogout_controller",
+      error: error.toString()
+    })
+  }
+}
