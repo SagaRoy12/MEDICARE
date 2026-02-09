@@ -1,35 +1,42 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const testAppointmentSchema = new mongoose.Schema({
-    PatientID: {
+
+    patientID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Patient"
+        ref: "Patient",
+        required: true
     },
-    testID: { 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Test"
+
+    // Stores multiple selected tests (ONLY names)
+    tests: {
+        type: [String],   // Example: ["CBC", "LFT", "ThyroidTest"]
+        required: true
     },
+
     testDate: {
         type: Date,
         required: true
     },
+
     testStatus: {
         type: String,
-        required: true,
-        enum: [`pending`, `completed`],
-        default: `pending`
+        enum: ["pending", "completed"],
+        default: "pending"
     },
+
     paymentID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Payment"
     },
+
     billID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Bill"
-    },
+    }
 
-}, { timestamps: true })
+}, { timestamps: true });
 
-const TestAppointment = mongoose.model("TestAppointment", testAppointmentSchema)
+const TestAppointment = mongoose.model("TestAppointment", testAppointmentSchema);
 
-export default TestAppointment
+export default TestAppointment;
