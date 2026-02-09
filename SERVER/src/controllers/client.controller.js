@@ -16,16 +16,16 @@ export const seePaymentStatus_controller = async (req, res) => {
         const { status } = req.query;  // Optional filter: ?status=pending
         console.log("payment Status in controller: ", status);
         // Get bills by the payemnt status
-        const bills = await getBillByPaymentStatus_Service(clientId, status);
-        const allBills = await getAllBillsByClientId_Service(clientId)
+        const billsByStatus = await getBillByPaymentStatus_Service(clientId, status);
+        const allBillsForClient = await getAllBillsByClientId_Service(clientId)
         // Get summary
         const summary = await getPaymentSummary_Service(clientId);
 
         return res.status(200).json({
             message: "Payment status retrieved successfully ✌️",
             summary,
-            allBills, // ⚠️use the all bills in saperate case too where user in one click can get all of his bills 
-            bills,
+            allBillsForClient, // ⚠️use the all bills in saperate case too where user in one click can get all of his bills 
+            billsByStatus,
             totalBills: bills.length
         });
     }
