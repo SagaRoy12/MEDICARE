@@ -19,12 +19,12 @@ export const getAllClients_Service = tryCatchWrapper(async () => {
 })
 
 
-// booking new client service 
-export const bookNewTestAppointment_Service = async (PatientID, testID, testDate, testStatus, paymentID, billID) => {
+// booking new test appointment service
+export const bookNewTestAppointment_Service = async (patientID, tests, testDate, testStatus, paymentID, billID) => {
     try {
-        const newTestAppointment = await bookNewTestAppointment_DAO(PatientID, testID, testDate, testStatus, paymentID, billID)
+        const newTestAppointment = await bookNewTestAppointment_DAO(patientID, tests, testDate, testStatus, paymentID, billID)
         return newTestAppointment
     } catch (error) {
-        throw new Error(`SERVICE LAYER ERROR | bookNewTestAppointment_Service | ${error} `)
+        throw new Error(`SERVICE LAYER ERROR | bookNewTestAppointment_Service | ${error.message}`)
     }
-} 
+}

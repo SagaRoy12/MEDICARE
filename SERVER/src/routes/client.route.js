@@ -10,7 +10,8 @@ const router = Router();
 router.get("/paymentStatus" , authMiddleware, isClient, seePaymentStatus_controller)//✅
 router.post("/login", clientLogin_controller)  //✅
 router.post("/logout" ,  clientLogout_controller)  //✅
-router.post("/bookAppointment" , authMiddleware, isClient, bookAppointment_controller)
+// router.post("/bookAppointment" ,  bookAppointment_controller) //this is just for testing will remove later 
+router.post("/bookAppointment" , authMiddleware, isClient, bookAppointment_controller)//✅
 router.post("/updateReportValues" , authMiddleware, isClient, updateReportValues_controller)
 router.post("/generateBill" , authMiddleware, isClient, generateAndSaveBill_controller)
 router.get("downloadBillPdf/:billId/pdf" , authMiddleware, isClient, generatePdfOfBill_controller)  // update the route the route is not proper 

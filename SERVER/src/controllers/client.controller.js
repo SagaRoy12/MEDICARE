@@ -24,15 +24,16 @@ export const seePaymentStatus_controller = async (req, res) => {
         return res.status(200).json({
             message: "Payment status retrieved successfully ✌️",
             summary,
-            allBillsForClient, // ⚠️use the all bills in saperate case too where user in one click can get all of his bills 
+            allBillsForClient,
             billsByStatus,
-            totalBills: bills.length
+            totalBillsByStatus: billsByStatus.length,
+            totalBills: allBillsForClient.length
         });
     }
     catch (error) {
-        console.error(`CONTROLLER ERROR | seePaymentStatus_controller  ${error}`);
+        console.error(`CONTROLLER ERROR | seePaymentStatus_controller: ${error}`);
         return res.status(500).json({
-            message: message,
+            message: error.message,
             controller: "seePaymentStatus_controller",
             error: error.toString()
         });
@@ -43,25 +44,30 @@ export const seePaymentStatus_controller = async (req, res) => {
 
 // Other controller functions...
 export const bookAppointment_controller = async (req, res) => {
-
     try {
-        const { PatientID, testID, testDate, testStatus, paymentID, billID } = req.body
-        const newAppointmentBooking = await bookNewTestAppointment_Service(PatientID, testID, testDate, testStatus, paymentID, billID)
+        const { patientID, tests, testDate, testStatus, paymentID, billID } = req.body;   // next change --> rather than destructuring the total object just pass it as a veriable 
+
+        const newAppointmentBooking = await bookNewTestAppointment_Service(
+            patientID,
+            tests,
+            testDate,
+            testStatus,
+            paymentID,
+            billID
+        );
 
         return res.status(200).json({
-            message: "New Appointment is booked successfully ✌️"
-            , "Appointment Details": newAppointmentBooking
-        })
+            message: "New Appointment is booked successfully ✌️",
+            appointmentDetails: newAppointmentBooking
+        });
     } catch (error) {
-        // throw new Error(`CONTROLLER ERROR | bookAppointment_controller  ${error}`)
-        console.error(`CONTROLLER ERROR | bookAppointment_controller  ${error}`);
+        console.error(`CONTROLLER ERROR | bookAppointment_controller: ${error}`);
         return res.status(500).json({
-            message: message,
+            message: error.message,
             controller: "bookAppointment_controller",
             error: error.toString()
         });
     }
-
 };
 
 
@@ -79,9 +85,9 @@ export const generateAndSaveBill_controller = async (req, res) => {
             bill: generatedBill
         });
     } catch (error) {
-        console.error(`CONTROLLER ERROR | generateAndSaveBill_controller  ${error}`)
+        console.error(`CONTROLLER ERROR | generateAndSaveBill_controller: ${error}`)
         return res.status(500).json({
-            message: message,
+            message: error.message,
             controller: "generateAndSaveBill_controller",
             error: error.toString()
         });
@@ -102,9 +108,9 @@ export const generatePdfOfBill_controller = async (req, res) => {
         res.send(pdfBuffer);
 
     } catch (error) {
-        console.error(`CONTROLLER ERROR | generatePdfOfBill_controller  ${error}`);
+        console.error(`CONTROLLER ERROR | generatePdfOfBill_controller: ${error}`);
         return res.status(500).json({
-            message: message,
+            message: error.message,
             controller: "generatePdfOfBill_controller",
             error: error.toString()
         });
