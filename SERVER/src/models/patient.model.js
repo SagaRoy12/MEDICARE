@@ -15,7 +15,7 @@ const patientSchema = new mongoose.Schema({
     patientPhoneNumber: {
         type: String,        //  Store as string
         required: true,
-        unique: true,
+       // unique: true,
         validate: {
             validator: function (v) {
                 return /^(\+91)?[-\s]?[6-9]\d{9}$/.test(v.replace(/[-\s]/g, ''));
